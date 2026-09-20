@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#020E22" />
+  <title>Quickie Eye — Teleprompter Camera</title>
+
+  <!-- SEO -->
+  <meta name="description"
+    content="Record videos with a built-in teleprompter. Works fully offline. Perfect for TikTok, Reels, Shorts and YouTube." />
+  <meta name="author" content="Salvation" />
+  <meta name="keywords" content="teleprompter, video recorder, TikTok, Reels, Shorts, PWA, offline, camera" />
+  <link rel="canonical" href="https://iamsalvation.github.io/quickie_eye/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Quickie Eye" />
+  <meta property="og:title" content="Quickie Eye — Teleprompter Camera" />
+  <meta property="og:description" content="Record videos with a built-in teleprompter. Works fully offline." />
+  <meta property="og:url" content="https://iamsalvation.github.io/quickie_eye/" />
+  <meta property="og:image" content="https://iamsalvation.github.io/quickie_eye/icons/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Quickie Eye — Teleprompter Camera" />
+  <meta name="twitter:description" content="Record videos with a built-in teleprompter. Works fully offline." />
+  <meta name="twitter:image" content="https://iamsalvation.github.io/quickie_eye/icons/og-image.png" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
+  <link rel="shortcut icon" href="./icons/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quickie Eye" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-TileColor" content="#020E22" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="app">
+    <!-- ============================================
+         SCREEN 0 — SPLASH
+    ============================================= -->
+    <section id="splashScreen" class="screen active">
+      <div class="splash-logo">
+        <img src="logo.png" alt="Quickie Eye" />
+      </div>
+      <div class="splash-name">Quickie <span>Eye</span></div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 1 — HOME
+    ============================================= -->
+    <section id="homeScreen" class="screen">
+      <header id="homeHeader" class="home-header">
+        <div class="brand">
+          <img class="brand-logo" src="logo.png" alt="Quickie Eye" />
+          <div class="brand-text">Quickie <span>Eye</span></div>
+        </div>
+        <button id="installBtn" class="install-btn" hidden>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+          </svg>
+          Install
+        </button>
+      </header>
+
+      <header id="selectionHeader" class="selection-header" hidden>
+        <button id="selectionCancelBtn" class="circle-btn" title="Cancel">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div id="selectionCount" class="selection-count">0 selected</div>
+        <button id="selectionSelectAllBtn" class="selection-text-btn" type="button">Select all</button>
+        <div class="selection-actions">
+          <button id="selectionShareBtn" class="circle-btn" title="Share" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
+            </svg>
+          </button>
+          <button id="selectionMoveBtn" class="circle-btn" title="Move to folder" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7a2 2 0 012-2h3l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+            </svg>
+          </button>
+          <button id="selectionDownloadBtn" class="circle-btn" title="Download" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+            </svg>
+          </button>
+          <button id="selectionDeleteBtn" class="circle-btn danger" title="Delete" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <button id="newVideoBtn" class="primary-btn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          New Video
+        </button>
+
+        <div class="videos-header">
+          <h2>My Videos</h2>
+          <div class="videos-header-right">
+            <a id="homeSeeAllLink" class="videos-header-link" href="#">All</a>
+            <span id="videoCount" class="video-count">0</span>
+          </div>
+        </div>
+
+        <div id="folderChipsHome" class="folder-chips-row"></div>
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="6" width="14" height="12" rx="3" />
+              <path d="M16 10l6-3v10l-6-3" />
+            </svg>
+          </div>
+          <p class="empty-title">No videos yet</p>
+          <p class="empty-sub">Tap <strong>New Video</strong> to start creating</p>
+        </div>
+
+        <div id="videoGrid" class="video-grid"></div>
+
+        <button id="homeSeeAllBtn" class="see-all-btn" hidden>
+          See all <span id="homeSeeAllCount">0</span> videos →
+        </button>
+      </main>
+    </section>
+
+    <!-- ============================================
+         SCREEN 1B — ALL VIDEOS
+    ============================================= -->
+    <section id="allVideosScreen" class="screen">
+      <header id="allVideosHeader" class="allvideos-header">
+        <button id="allVideosBackBtn" class="circle-btn" title="Back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div class="allvideos-title">All Videos</div>
+        <span id="allVideosCount" class="video-count">0</span>
+      </header>
+
+      <header id="allVideosSelectionHeader" class="selection-header" hidden>
+        <button id="allSelectionCancelBtn" class="circle-btn" title="Cancel">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div id="allSelectionCount" class="selection-count">0 selected</div>
+        <button id="allSelectionSelectAllBtn" class="selection-text-btn" type="button">Select all</button>
+        <div class="selection-actions">
+          <button id="allSelectionShareBtn" class="circle-btn" title="Share" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
+            </svg>
+          </button>
+          <button id="allSelectionMoveBtn" class="circle-btn" title="Move to folder" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7a2 2 0 012-2h3l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+            </svg>
+          </button>
+          <button id="allSelectionDownloadBtn" class="circle-btn" title="Download" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+            </svg>
+          </button>
+          <button id="allSelectionDeleteBtn" class="circle-btn danger" title="Delete" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <div id="folderChipsAll" class="folder-chips-row"></div>
+        <div id="allVideosEmptyState" class="empty-state" hidden>
+          <p class="empty-title">No videos</p>
+          <p class="empty-sub">Nothing to show here yet</p>
+        </div>
+        <div id="allVideosGrid" class="video-grid"></div>
+      </main>
+    </section>
+
+    <!-- ============================================
+         SCREEN 2 — RECORD
+    ============================================= -->
+    <section id="recordScreen" class="screen">
+      <video id="video" autoplay playsinline muted></video>
+
+      <div id="prompterWrap">
+        <div id="prompterText"></div>
+      </div>
+
+      <header class="record-header">
+        <button id="recordBackBtn" class="circle-btn" title="Back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div id="timer" class="timer">00:00</div>
+        <button id="openSettings" class="circle-btn" title="Settings">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-1.87-.34 1.7 1.7 0 00-1 1.55V21a2 2 0 11-4 0v-.09A1.7 1.7 0 009 19.4a1.7 1.7 0 00-1.87.34l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.09A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6a1.7 1.7 0 001-1.55V3a2 2 0 114 0v.09A1.7 1.7 0 0015 4.6a1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.09a1.7 1.7 0 00-1.51 1z" />
+          </svg>
+        </button>
+      </header>
+
+      <footer class="record-footer">
+        <div class="footer-row">
+          <button id="voiceBtn" class="pill-btn">🎤 Voice</button>
+          <button id="mirrorBtn" class="pill-btn active">Mirror</button>
+        </div>
+        <div class="footer-row">
+          <button id="recordBtn" title="Record"></button>
+        </div>
+      </footer>
+
+      <div id="settingsPanel" class="settings-panel">
+        <div class="settings-handle"></div>
+        <h3>Settings</h3>
+
+        <div class="field">
+          <label>Script <span id="wordCount">0 words</span></label>
+          <textarea id="scriptInput" placeholder="Paste or type your script here..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Video Format</label>
+          <select id="formatSelect" class="select-input">
+            <option value="tiktok" selected>📱 TikTok / Reels / Shorts (9:16)</option>
+            <option value="youtube">🎥 YouTube (16:9)</option>
+            <option value="igpost">📷 Instagram Post (1:1)</option>
+            <option value="igportrait">📸 Instagram Portrait (4:5)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Video Quality <span id="qualityHint">2.9 Mbps</span></label>
+          <select id="qualitySelect" class="select-input">
+            <option value="saver">💾 Data Saver — smallest files</option>
+            <option value="balanced" selected>⚖️ Balanced — recommended</option>
+            <option value="high">✨ High — best quality</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Scroll Speed <span id="speedVal">40</span></label>
+          <input type="range" id="speed" min="5" max="150" value="40" />
+        </div>
+
+        <div class="field">
+          <label>Font Size <span id="fontVal">28px</span></label>
+          <input type="range" id="fontSize" min="16" max="60" value="28" />
+        </div>
+
+        <div class="field">
+          <label>Position <span id="posVal">8%</span></label>
+          <input type="range" id="position" min="0" max="80" value="8" />
+        </div>
+
+        <div class="field">
+          <label>Background Darkness <span id="bgVal">0%</span></label>
+          <input type="range" id="bgOpacity" min="0" max="100" value="0" />
+        </div>
+
+        <div class="field">
+          <label>Countdown <span id="cdVal">3s</span></label>
+          <input type="range" id="countdownSec" min="0" max="10" value="3" />
+        </div>
+
+        <button id="closeSettings" class="primary-btn">Done</button>
+      </div>
+
+      <div id="countdownOverlay" class="countdown-overlay">3</div>
+    </section>
+
+    <!-- ============================================
+         SCREEN 3 — PREVIEW
+    ============================================= -->
+    <section id="previewScreen" class="screen">
+      <header class="preview-header">
+        <button id="previewCloseBtn" class="circle-btn" title="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="preview-title">Preview</div>
+        <div style="width: 44px"></div>
+      </header>
+
+      <div class="preview-video-wrap">
+        <video id="previewVideo" controls playsinline></video>
+      </div>
+
+      <div class="preview-options">
+        <label id="parallelMp4Row" class="checkbox-row">
+          <input type="checkbox" id="parallelMp4Check" />
+          <span class="checkbox-custom"></span>
+          <span class="checkbox-label">Also save as MP4 <small>(for sharing)</small></span>
+        </label>
+
+        <div class="field">
+          <label>Save to folder</label>
+          <select id="previewFolderSelect" class="select-input">
+            <option value="">📁 No folder</option>
+          </select>
+        </div>
+      </div>
+
+      <footer class="preview-footer">
+        <button id="retakeBtn" class="secondary-btn">Retake</button>
+        <button id="saveBtn" class="primary-btn">Save to Home</button>
+      </footer>
+    </section>
+
+    <!-- ============================================
+         VIDEO PLAYER MODAL
+    ============================================= -->
+    <div id="playerModal" class="player-modal">
+      <header class="player-header">
+        <button id="playerCloseBtn" class="circle-btn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"
+            stroke-linecap="round">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <div id="playerTitle" class="player-title">Video</div>
+        <button id="playerMenuBtn" class="circle-btn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <circle cx="12" cy="5" r="2" />
+            <circle cx="12" cy="12" r="2" />
+            <circle cx="12" cy="19" r="2" />
+          </svg>
+        </button>
+      </header>
+
+      <video id="playerVideo" controls playsinline></video>
+
+      <div id="playerMenu" class="player-menu">
+        <button id="menuShareBtn">Share</button>
+        <button id="menuDownloadBtn">Download</button>
+        <button id="menuConvertBtn">Convert to MP4</button>
+        <button id="menuMoveBtn">Move to folder…</button>
+        <button id="menuDeleteBtn" class="danger">Delete</button>
+        <button id="menuCancelBtn">Cancel</button>
+      </div>
+    </div>
+
+    <!-- ============================================
+         GENERIC MODAL — used for folder creation, rename, move sheet, etc.
+    ============================================= -->
+    <div id="modalBackdrop" class="modal-backdrop">
+      <div id="modalContent" class="modal-content"></div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
